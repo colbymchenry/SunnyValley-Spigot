@@ -1,0 +1,17 @@
+EnableAnimalNaturalSpawning: false
+Crops:
+  Spring:
+    - POTATOE
+    - POTATOES
+    - WHEAT
+  Summer:
+    - PUMPKIN
+    - MELON
+    - WHEAT
+  Autumn:
+    - BEETROOT
+    - BEETROOTS
+    - WHEAT
+  Winter:
+    - BEETROOT
+    - BEETROOTS

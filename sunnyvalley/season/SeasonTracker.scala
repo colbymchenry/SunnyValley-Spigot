@@ -1,35 +1,44 @@
 package sunnyvalley.season
 
-import org.bukkit.{Bukkit, World}
+import com.coloredcarrot.api.sidebar.{Sidebar, SidebarString}
+import org.apache.commons.lang3.text.WordUtils
+import org.bukkit.{Bukkit, ChatColor, World}
 import org.bukkit.scheduler.BukkitRunnable
-import sunnyvalley.Main
-import sunnyvalley.scoreboard.ScoreboardHelper.manager
-import sunnyvalley.scoreboard.{PlayerStats, ScoreboardHelper}
+import sunnyvalley.{Main, PlayerStats, WorldListener}
 
+// TODO: Come up with a new name for this
 object SeasonTracker {
 
-  def getDaysPassed(w: World):Int = Math.floor(w.getFullTime / 1000D / 24D).toInt
+  var worldDays:Map[World, Integer] = Map()
 
   def startSeasonTask: Unit = {
     new BukkitRunnable {
       override def run(): Unit = {
         Bukkit.getWorlds.forEach(world => {
-          world.getPlayers.forEach(player => {
-            var playerStats = ScoreboardHelper.getStats(player.getUniqueId)
-            if(playerStats != null) {
-              playerStats = new PlayerStats(player)
-              player.setScoreboard(manager.getNewScoreboard)
-              player.setScoreboard(playerStats.board)
-              playerStats.scoreDays = playerStats.objective.getScore("Days: " + CalendarHelper.getElapsedDays(world.getFullTime))
-              playerStats.scoreSeason = playerStats.objective.getScore(CalendarHelper.getSeason(world.getFullTime).chatColor + CalendarHelper.getSeason(world.getFullTime).name())
-              playerStats.scoreWeekday = playerStats.objective.getScore(CalendarHelper.getWeekday(world.getFullTime).name())
-              playerStats.scoreTime = playerStats.objective.getScore(CalendarHelper.formatTime(world.getTime.toInt))
+          // handle tracking days so we can do something on a new day
+          if(!worldDays.contains(world)) worldDays += (world -> CalendarHelper.getElapsedDays(world.getFullTime))
+          else {
+            if(worldDays(world).intValue() != CalendarHelper.getElapsedDays(world.getFullTime)) {
+              WorldListener.onNewDay(world)
+              worldDays -= world
+              worldDays += (world -> CalendarHelper.getElapsedDays(world.getFullTime))
+            }
+          }
 
-              playerStats.scoreGold.setScore(5)
-              playerStats.scoreSeason.setScore(4)
-              playerStats.scoreDays.setScore(3)
-              playerStats.scoreWeekday.setScore(2)
-              playerStats.scoreTime.setScore(1)
+          // go through all the players in the world and update their sidebar information
+          world.getPlayers.forEach(player => {
+            val playerStats = new PlayerStats(player)
+            if (playerStats != null) {
+              val goldLine = new SidebarString(ChatColor.GOLD + "Gold: " + playerStats.getGold())
+              val dayLine = new SidebarString("Day: " + CalendarHelper.getDayOfMonth(world.getFullTime))
+              val seasonLine = new SidebarString(CalendarHelper.getSeason(world.getFullTime).chatColor + WordUtils.capitalizeFully(CalendarHelper.getSeason(world.getFullTime).name()))
+              val weekdayLine = new SidebarString(WordUtils.capitalizeFully(CalendarHelper.getWeekday(world.getFullTime).name()))
+
+              val timeLine = new SidebarString(CalendarHelper.formatTime(world.getTime.toInt))
+              val blankLine = new SidebarString("")
+
+              val sidebar = new Sidebar("SunnyValley", Main.instance, 60, weekdayLine, timeLine, seasonLine, dayLine, blankLine, goldLine)
+              sidebar.showTo(player)
             }
           })
         })

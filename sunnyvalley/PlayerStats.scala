@@ -1,31 +1,14 @@
-package sunnyvalley.scoreboard
+package sunnyvalley
 
 import java.sql.ResultSet
 
-import org.bukkit.ChatColor
 import org.bukkit.entity.Player
-import org.bukkit.scoreboard._
-import sunnyvalley.SunnyValley
-import sunnyvalley.scoreboard.ScoreboardHelper.manager
 
 class PlayerStats(player: Player) {
 
-  val board:Scoreboard = manager.getNewScoreboard
-  val team:Team = board.registerNewTeam("main")
-  val objective:Objective = board.registerNewObjective("stats", "dummy")
-  objective.setDisplaySlot(DisplaySlot.SIDEBAR)
-  objective.setDisplayName("Stats")
+  insertIntoDb()
 
-  var scoreGold:Score = _
-  var scoreDays:Score = _
-  var scoreSeason:Score = _
-  var scoreWeekday:Score = _
-  var scoreTime:Score = _
-
-  team.addPlayer(player)
-  initialSetup()
-
-  def initialSetup() {
+  def insertIntoDb() {
     var result:ResultSet = SunnyValley.sqlite.query("SELECT * FROM gold WHERE player='" + player.getUniqueId.toString + "'")
 
     if(!result.next()) {
@@ -40,6 +23,12 @@ class PlayerStats(player: Player) {
 
   def setGold(x: Int): Unit = {
     SunnyValley.sqlite.query("UPDATE gold SET amount='" + x +"' WHERE player='" + player.getUniqueId.toString + "'")
+  }
+
+  def getGold(): Long = {
+    val result = SunnyValley.sqlite.query("SELECT * FROM gold WHERE player='" + player.getUniqueId.toString + "'")
+    if(result.next()) return result.getLong("amount")
+    0L
   }
 
   def getPlayer:Player = player

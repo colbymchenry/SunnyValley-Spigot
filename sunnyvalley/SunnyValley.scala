@@ -2,7 +2,6 @@ package sunnyvalley
 
 import lib.PatPeter.SQLibrary.{Database, SQLite}
 import org.bukkit.plugin.java.JavaPlugin
-import sunnyvalley.scoreboard.ScoreboardHelper
 import sunnyvalley.season.SeasonTracker
 
 object SunnyValley {
@@ -14,12 +13,12 @@ object SunnyValley {
     sqlite.open()
     createTables()
     plugin.saveDefaultConfig()
-    plugin.getServer.getPluginManager.registerEvents(ScoreboardHelper, plugin)
+    plugin.getServer.getPluginManager.registerEvents(WorldListener, plugin)
     SeasonTracker.startSeasonTask
   }
 
   def createTables(): Unit = {
-    sqlite.query("CREATE TABLE IF NOT EXISTS gold (player VARCHAR(36) NOT NULL, amount INT DEFAULT 0)")
+    sqlite.query("CREATE TABLE IF NOT EXISTS gold (player VARCHAR(36) NOT NULL, amount LONG DEFAULT 0)")
   }
 
 }

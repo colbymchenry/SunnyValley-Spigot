@@ -12,9 +12,4 @@ public enum Season {
         this.chatColor = chatColor;
     }
 
-    public Season getNext() {
-        if(ordinal() == values().length) return values()[0];
-        return values()[ordinal() + 1];
-    }
-
 }

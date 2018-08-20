@@ -2,15 +2,18 @@ package sunnyvalley.season;
 
 import org.bukkit.World;
 
-import static sunnyvalley.season.CalendarDate.DAYS_PER_SEASON;
-
 public class CalendarHelper {
+    public static int DAYS_PER_SEASON = 30;
     public static final long TICKS_PER_DAY = 24000;
     public static final Season[] SEASONS;
     public static final Weekday[] DAYS;
     static {
         SEASONS = Season.class.getEnumConstants();
         DAYS = Weekday.class.getEnumConstants();
+    }
+
+    public static int getDayOfMonth(long time) {
+        return CalendarHelper.getElapsedDays(time) % CalendarHelper.DAYS_PER_SEASON;
     }
 
     //Returns 0-29
@@ -55,23 +58,6 @@ public class CalendarHelper {
         return day + season_days + year_days;
     }
 
-    public static int getTotalDays(CalendarDate date) {
-        int current_days = date.getDay();
-        int season_days = DAYS_PER_SEASON * date.getSeason().ordinal();
-        int year_days = (date.getYear() - 1) * (DAYS_PER_SEASON * 4);
-        return current_days + season_days + year_days;
-    }
-
-    public static int getYearsPassed(CalendarDate birthday, CalendarDate date) {
-        double current_total_days = getTotalDays(date);
-        double birthday_total_days = getTotalDays(birthday);
-        int one_year = DAYS_PER_SEASON * 4;
-
-        int years_passed = (int) Math.floor(current_total_days / one_year);
-        int birthday_years = (int) Math.floor(birthday_total_days / one_year);
-
-        return Math.max(0, years_passed - birthday_years);
-    }
 
     public static long getTime(int day, Season season, int year) {
         return (getTotalDays(day, season, year)) * TICKS_PER_DAY;
@@ -90,12 +76,6 @@ public class CalendarHelper {
         int scaledOpening = CalendarHelper.getScaledTime(open);
         int scaledClosing = CalendarHelper.getScaledTime(close);
         return daytime >= scaledOpening && daytime <= scaledClosing;
-    }
-
-    public static int getDays(CalendarDate then, CalendarDate now) {
-        int thenDays = getTotalDays(then);
-        int nowDays = getTotalDays(now);
-        return (nowDays - thenDays);
     }
 
     public static String formatTime(int time) {
