@@ -1,0 +1,5 @@
+name: SunnyValley
+version: alpha
+author: TheHatefulAsian
+main: sunnyvalley.Main
+api-version: 1.13
