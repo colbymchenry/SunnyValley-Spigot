@@ -1,17 +1,17 @@
 EnableAnimalNaturalSpawning: false
-Crops:
-  Spring:
-    - POTATOE
-    - POTATOES
-    - WHEAT
-  Summer:
-    - PUMPKIN
-    - MELON
-    - WHEAT
-  Autumn:
-    - BEETROOT
-    - BEETROOTS
-    - WHEAT
-  Winter:
-    - BEETROOT
-    - BEETROOTS
+ShipmentBox:
+  Crops:
+    Spring:
+      - POTATOE,100
+      - WHEAT,25
+    Summer:
+      - PUMPKIN,50
+      - MELON,50
+      - WHEAT,25
+    Autumn:
+      - BEETROOT,100
+      - WHEAT,25
+    Winter:
+      - BEETROOT,100
+  Items:
+    - COBBLESTONE,2

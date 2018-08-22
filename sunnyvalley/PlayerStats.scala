@@ -21,7 +21,7 @@ class PlayerStats(val player: Player) {
     SunnyValley.sqlite.query("INSERT INTO gold (player) VALUES ('" + player.getUniqueId.toString + "')")
   }
 
-  def setGold(x: Int): Unit = {
+  def setGold(x: Long): Unit = {
     SunnyValley.sqlite.query("UPDATE gold SET amount='" + x +"' WHERE player='" + player.getUniqueId.toString + "'")
   }
 

@@ -2,24 +2,24 @@ package sunnyvalley
 
 import java.util.logging.Level
 
-import org.bukkit.block.{Block, BlockFace}
 import org.bukkit.{Bukkit, ChatColor, Material, World}
 import org.bukkit.entity.EntityType
 import org.bukkit.event.block.{BlockBreakEvent, SignChangeEvent}
 import org.bukkit.event.entity.CreatureSpawnEvent
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason
 import org.bukkit.event.{EventHandler, Listener}
 
-// TODO: Check for double chests.
 object WorldListener extends Listener {
 
   @EventHandler
   def onEntitySpawn(e: CreatureSpawnEvent): Unit = {
-    if (e.getEntityType != EntityType.PLAYER && !Main.instance.getConfig.getBoolean("EnableAnimalNaturalSpawning", false))
+    if (e.getEntityType != EntityType.PLAYER && e.getSpawnReason == SpawnReason.NATURAL
+      && !Main.instance.getConfig.getBoolean("EnableAnimalNaturalSpawning", false))
       e.setCancelled(true)
   }
 
   /**
-    * Event for creating shipment boxs
+    * Event for creating shipment box's
     */
   @EventHandler
   def onSignChanged(e: SignChangeEvent): Unit = {
@@ -35,7 +35,7 @@ object WorldListener extends Listener {
       return
     }
 
-    val attachedSign = getAttachedSign(e.getBlock.getRelative(signMaterial.getAttachedFace))
+    val attachedSign = ShipmentBox.getAttachedSignForBlock(e.getBlock.getRelative(signMaterial.getAttachedFace))
 
     if(attachedSign != null) {
       e.getPlayer.sendMessage(ChatColor.RED + "Uh-Oh! " + ChatColor.RESET + "There is already a shipment box.")
@@ -72,7 +72,7 @@ object WorldListener extends Listener {
   def onBlockBreak(e: BlockBreakEvent): Unit = {
     if (e.getBlock.getBlockData.getMaterial != Material.WALL_SIGN) {
       if(e.getBlock.getBlockData.getMaterial == Material.CHEST) {
-        val attachedSign = getAttachedSign(e.getBlock)
+        val attachedSign = ShipmentBox.getAttachedSignForBlock(e.getBlock)
         if(attachedSign != null) {
           Bukkit.getServer.getPluginManager.callEvent(new BlockBreakEvent(attachedSign, e.getPlayer))
         }
@@ -95,22 +95,10 @@ object WorldListener extends Listener {
   }
 
   def onNewDay(w: World): Unit = {
-
+    ShipmentBox.handleNewDay(w)
   }
 
-  def getAttachedSign(block: Block):Block = {
-    val faces = Array(BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH)
-
-    for (face <- faces) {
-      if(block.getRelative(face).getBlockData.getMaterial == Material.WALL_SIGN) {
-        val sign: org.bukkit.block.Sign = block.getRelative(face).getState.asInstanceOf[org.bukkit.block.Sign]
-        if(sign.getLine(0).equalsIgnoreCase(ChatColor.DARK_BLUE + "[ShipmentBox]")) {
-          if(new ShipmentBox(sign.getWorld, sign.getX, sign.getY, sign.getZ).inDatabase) return block.getRelative(face)
-        }
-      }
-    }
-
-    null
-  }
+  // TODO: Land claiming with fences, animal prices for whool, milk, and meats, auto sapling replanting,
+  // TODO: pricing for new aquatic update content
 
 }
