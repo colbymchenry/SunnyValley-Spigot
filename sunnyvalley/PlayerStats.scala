@@ -4,7 +4,7 @@ import java.sql.ResultSet
 
 import org.bukkit.entity.Player
 
-class PlayerStats(player: Player) {
+class PlayerStats(val player: Player) {
 
   insertIntoDb()
 

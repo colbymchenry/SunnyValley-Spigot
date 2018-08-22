@@ -12,6 +12,11 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         instance = this;
         ASCIIOutput.printTitle();
-        SunnyValley.onEnable(this);
+        SunnyValley.onEnable();
+    }
+
+    @Override
+    public void onDisable() {
+        SunnyValley.onDisable();
     }
 }

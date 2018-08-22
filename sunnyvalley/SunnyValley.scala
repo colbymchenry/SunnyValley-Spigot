@@ -1,24 +1,27 @@
 package sunnyvalley
 
 import lib.PatPeter.SQLibrary.{Database, SQLite}
-import org.bukkit.plugin.java.JavaPlugin
 import sunnyvalley.season.SeasonTracker
 
 object SunnyValley {
 
-  var sqlite:Database = _
+  val sqlite:Database = new SQLite(Main.instance.getLogger, Main.instance.getName, Main.instance.getDataFolder.getAbsolutePath, "storage")
 
-  def onEnable(plugin: JavaPlugin): Unit = {
-    sqlite = new SQLite(plugin.getLogger, plugin.getName, plugin.getDataFolder.getAbsolutePath, "storage")
+  def onEnable(): Unit = {
     sqlite.open()
     createTables()
-    plugin.saveDefaultConfig()
-    plugin.getServer.getPluginManager.registerEvents(WorldListener, plugin)
+    Main.instance.saveDefaultConfig()
+    Main.instance.getServer.getPluginManager.registerEvents(WorldListener, Main.instance)
     SeasonTracker.startSeasonTask
+  }
+
+  def onDisable: Unit = {
+    sqlite.close()
   }
 
   def createTables(): Unit = {
     sqlite.query("CREATE TABLE IF NOT EXISTS gold (player VARCHAR(36) NOT NULL, amount LONG DEFAULT 0)")
+    sqlite.query("CREATE TABLE IF NOT EXISTS shipmentbox (owner VARCHAR(36) NOT NULL, world VARCHAR(36) NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL)")
   }
 
 }
