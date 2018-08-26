@@ -1,6 +1,7 @@
 package sunnyvalley
 
 import lib.PatPeter.SQLibrary.{Database, SQLite}
+import sunnyvalley.landcontrol.{CommandClaim, LandClaimListener}
 import sunnyvalley.season.SeasonTracker
 
 object SunnyValley {
@@ -12,6 +13,8 @@ object SunnyValley {
     createTables()
     Main.instance.saveDefaultConfig()
     Main.instance.getServer.getPluginManager.registerEvents(WorldListener, Main.instance)
+    Main.instance.getServer.getPluginManager.registerEvents(LandClaimListener, Main.instance)
+    Main.instance.getCommand("claim").setExecutor(CommandClaim)
     SeasonTracker.startSeasonTask
   }
 
@@ -22,6 +25,7 @@ object SunnyValley {
   def createTables(): Unit = {
     sqlite.query("CREATE TABLE IF NOT EXISTS gold (player VARCHAR(36) NOT NULL, amount LONG DEFAULT 0)")
     sqlite.query("CREATE TABLE IF NOT EXISTS shipmentbox (owner VARCHAR(36) NOT NULL, world VARCHAR(36) NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL)")
+    sqlite.query("CREATE TABLE IF NOT EXISTS landclaim (owner VARCHAR(36) NOT NULL, world VARCHAR(36) NOT NULL, x INT NOT NULL, z INT NOT NULL)")
   }
 
 }

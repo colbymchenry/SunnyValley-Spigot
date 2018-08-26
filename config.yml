@@ -2,16 +2,30 @@ EnableAnimalNaturalSpawning: false
 ShipmentBox:
   Crops:
     Spring:
-      - POTATOE,100
+      - POTATOE,80
       - WHEAT,25
     Summer:
       - PUMPKIN,50
       - MELON,50
       - WHEAT,25
     Autumn:
-      - BEETROOT,100
+      - BEETROOT,75
+      - CARROT,120
       - WHEAT,25
     Winter:
-      - BEETROOT,100
+      - BEETROOT,75
   Items:
     - COBBLESTONE,2
+    - APPLE,2
+    - SUGAR_CANE,2
+    - EGG,2
+    - MILK_BUCKET,2
+    - BREAD,85
+    - TROPICAL_FISH,2
+    - PUFFERFISH,2
+    - SALMON,2
+    - RABBIT_FOOT,2
+    - PUMPKIN_PIE,2
+    - KELP,2
+    - CACTUS,2
+    - CAKE,2

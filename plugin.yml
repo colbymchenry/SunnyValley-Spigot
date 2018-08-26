@@ -3,3 +3,7 @@ version: alpha
 author: TheHatefulAsian
 main: sunnyvalley.Main
 api-version: 1.13
+commands:
+  claim:
+    description: Gives player splash potion to claim a chunk of land.
+    usage: /claim

@@ -29,6 +29,7 @@ class ShipmentBox(val world: World, val x: Int, val y: Int, val z: Int) {
 
   def delete(): Unit = {
     SunnyValley.sqlite.query("DELETE FROM shipmentbox WHERE world='" + world.getUID.toString + "' AND x='" + x + "' AND y='" + y + "' AND z='" + z + "'")
+    world.getBlockAt(x, y, z).breakNaturally()
   }
 
   def getOwner(): OfflinePlayer = {
