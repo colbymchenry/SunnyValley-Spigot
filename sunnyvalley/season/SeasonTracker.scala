@@ -2,9 +2,14 @@ package sunnyvalley.season
 
 import com.coloredcarrot.api.sidebar.{Sidebar, SidebarString}
 import org.apache.commons.lang3.text.WordUtils
-import org.bukkit.{Bukkit, ChatColor, World}
+import org.bukkit.entity.{EntityType, Item}
+import org.bukkit.event.entity.EntityDropItemEvent
+import org.bukkit.{Bukkit, ChatColor, Material, World}
 import org.bukkit.scheduler.BukkitRunnable
-import sunnyvalley.{Main, PlayerStats, WorldListener}
+import sunnyvalley.{Main, PlayerStats, ShipmentBox, WorldListener}
+
+import scala.concurrent.JavaConversions._
+import scala.collection.JavaConverters._
 
 // TODO: Come up with a new name for this
 object SeasonTracker {
@@ -19,7 +24,7 @@ object SeasonTracker {
           if(!worldDays.contains(world)) worldDays += (world -> CalendarHelper.getElapsedDays(world.getFullTime))
           else {
             if(worldDays(world).intValue() != CalendarHelper.getElapsedDays(world.getFullTime)) {
-              WorldListener.onNewDay(world)
+              ShipmentBox.handleNewDay(world)
               worldDays -= world
               worldDays += (world -> CalendarHelper.getElapsedDays(world.getFullTime))
             }
@@ -41,6 +46,29 @@ object SeasonTracker {
               sidebar.showTo(player)
             }
           })
+
+          println("CALLED")
+          // handle replanting saplings
+          for (elem <- world.getEntities.asScala) {
+            if(elem.isInstanceOf[Item]) {
+              println("BRBR")
+            }
+            if(elem.getType == EntityType.DROPPED_ITEM) {
+              val item: Item = elem.asInstanceOf[Item]
+              println(item.getItemStack.getType.name())
+              if(item.getItemStack.getType == Material.ACACIA_SAPLING || item.getItemStack.getType == Material.BIRCH_SAPLING
+              || item.getItemStack.getType == Material.DARK_OAK_SAPLING || item.getItemStack.getType == Material.JUNGLE_SAPLING
+              || item.getItemStack.getType == Material.OAK_SAPLING) {
+                println((world.getBlockAt(item.getLocation()).getType == Material.AIR) + "," + (world.getBlockAt(item.getLocation.subtract(0, 1, 0)).getType.name()) + "," + (world.getBlockAt(item.getLocation.subtract(0, 1, 0)).getType == Material.GRASS_BLOCK))
+
+                if(world.getBlockAt(item.getLocation()).getType == Material.AIR && (world.getBlockAt(item.getLocation.subtract(0, 1, 0)).getType == Material.GRASS_BLOCK)) {
+                  println("DO IT!")
+                  world.getBlockAt(item.getLocation()).setType(item.getItemStack.getType)
+                  item.remove()
+                }
+              }
+            }
+          }
         })
       }
     }.runTaskTimer(Main.instance, 0L, 20L)

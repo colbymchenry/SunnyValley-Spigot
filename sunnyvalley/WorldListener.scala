@@ -94,11 +94,7 @@ object WorldListener extends Listener {
     }
   }
 
-  def onNewDay(w: World): Unit = {
-    ShipmentBox.handleNewDay(w)
-  }
-
-  // TODO: Land claiming with fences, animal prices for whool, milk, and meats, auto sapling replanting,
+  // TODO: Animal prices for whool, milk, and meats
   // TODO: pricing for new aquatic update content
 
 }

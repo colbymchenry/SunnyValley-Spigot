@@ -5,5 +5,31 @@ main: sunnyvalley.Main
 api-version: 1.13
 commands:
   claim:
-    description: Gives player splash potion to claim a chunk of land.
-    usage: /claim
+    description: Command used to manage land claims.
+  claim delete:
+    description:  Delete the land claim you are currently standing in.
+    usage: /claim delete
+  claim info:
+    description:   Grabs info about the claim and displays it in chat.
+    usage: /claim info
+  friend:
+    description: Command used to manage friends.
+    aliases: [f]
+  friend add:
+    description: Send a friend request to a player.
+    usage: /friend add <player>
+  friend remove:
+    description: Remove a friend.
+    usage: /friend remove <player>
+  friend accept:
+    description: Accept a friend request.
+    usage: /friend accept <player>
+  friend deny:
+    description: Deny a friend request.
+    usage: /friend deny <player>
+  friend list:
+    description: View current friends list. Online players are green.
+    usage: /friend list
+  friend requests:
+    description: View pending friend requests.
+    usage: /friend requests
