@@ -1,7 +1,8 @@
 package sunnyvalley
 
 import lib.PatPeter.SQLibrary.{Database, SQLite}
-import sunnyvalley.landcontrol.{CommandClaim, LandClaimListener}
+import sunnyvalley.commands.{CommandClaim, CommandFriend}
+import sunnyvalley.landcontrol.LandClaimListener
 import sunnyvalley.season.SeasonTracker
 
 object SunnyValley {

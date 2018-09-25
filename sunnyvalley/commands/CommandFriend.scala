@@ -1,14 +1,13 @@
-package sunnyvalley
+package sunnyvalley.commands
 
 import java.util.UUID
 
-import org.bukkit._
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 import org.bukkit.entity.Player
+import org.bukkit.{Bukkit, ChatColor, OfflinePlayer, Sound}
+import sunnyvalley.SunnyValley
 
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
-import scala.collection.JavaConverters._
-import scala.concurrent.JavaConversions._
 
 object CommandFriend extends CommandExecutor {
 

@@ -1,8 +1,9 @@
-package sunnyvalley.landcontrol
+package sunnyvalley.commands
 
-import org.bukkit.{ChatColor, Chunk}
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 import org.bukkit.entity.Player
+import org.bukkit.{ChatColor, Chunk}
+import sunnyvalley.landcontrol.LandClaim
 
 object CommandClaim extends CommandExecutor {
 
@@ -15,7 +16,6 @@ object CommandClaim extends CommandExecutor {
     val chunk: Chunk = player.getWorld.getChunkAt(player.getLocation)
     val claim: LandClaim = new LandClaim(player.getWorld, chunk.getX, chunk.getZ)
 
-    // TODO: Finish info command
     if (strings(0).equalsIgnoreCase("delete")) {
       if(!claim.inDatabase) {
         player.sendMessage(ChatColor.RED + "Uh-Oh! " + ChatColor.RESET + "This chunk is not claimed.")
@@ -34,4 +34,3 @@ object CommandClaim extends CommandExecutor {
     true
   }
 }
-
