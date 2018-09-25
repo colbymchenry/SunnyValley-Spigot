@@ -7,6 +7,7 @@ import org.bukkit._
 import org.bukkit.entity.Player
 import sunnyvalley.{Cuboid, SunnyValley}
 
+// TODO: New form of land control, we want to keep players inside a city limit, so they do command /claim to pay rent on each claim they are renting
 class LandClaim(world: World, chunkX: Int, chunkZ: Int) {
 
   def writeToDatabase(owner: Player): Boolean = {

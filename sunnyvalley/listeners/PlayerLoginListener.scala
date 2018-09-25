@@ -1,7 +1,8 @@
-package sunnyvalley
+package sunnyvalley.listeners
 
 import org.bukkit.event.player.PlayerLoginEvent
 import org.bukkit.event.{EventHandler, Listener}
+import sunnyvalley.SunnyValley
 
 object PlayerLoginListener extends Listener {
 

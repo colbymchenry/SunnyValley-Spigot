@@ -2,7 +2,7 @@ package sunnyvalley
 
 import lib.PatPeter.SQLibrary.{Database, SQLite}
 import sunnyvalley.commands.{CommandClaim, CommandFriend}
-import sunnyvalley.landcontrol.LandClaimListener
+import sunnyvalley.listeners.{LandClaimListener, PlayerLoginListener, ShipmentBoxListener}
 import sunnyvalley.season.SeasonTracker
 
 object SunnyValley {
@@ -13,7 +13,7 @@ object SunnyValley {
     sqlite.open()
     createTables()
     Main.instance.saveDefaultConfig()
-    Main.instance.getServer.getPluginManager.registerEvents(WorldListener, Main.instance)
+    Main.instance.getServer.getPluginManager.registerEvents(ShipmentBoxListener, Main.instance)
     Main.instance.getServer.getPluginManager.registerEvents(LandClaimListener, Main.instance)
     Main.instance.getServer.getPluginManager.registerEvents(PlayerLoginListener, Main.instance)
     Main.instance.getCommand("claim").setExecutor(CommandClaim)

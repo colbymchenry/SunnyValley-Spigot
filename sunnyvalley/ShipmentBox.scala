@@ -32,7 +32,7 @@ class ShipmentBox(val world: World, val x: Int, val y: Int, val z: Int) {
     world.getBlockAt(x, y, z).breakNaturally()
   }
 
-  def getOwner(): OfflinePlayer = {
+  def getOwner: OfflinePlayer = {
     val result: ResultSet = SunnyValley.sqlite.query("SELECT * FROM shipmentbox WHERE world='" + world.getUID.toString + "' AND x='" + x + "' AND y='" + y + "' AND z='" + z + "'")
     if (result.next()) return Bukkit.getOfflinePlayer(UUID.fromString(result.getString("owner")))
     null
@@ -44,7 +44,7 @@ class ShipmentBox(val world: World, val x: Int, val y: Int, val z: Int) {
   }
 
   def processInventory: Long = {
-    if (!getOwner().isOnline) return 0
+    if (!getOwner.isOnline) return 0
 
     if (world.getBlockAt(x, y, z).getBlockData.getMaterial != Material.WALL_SIGN) {
       delete()
@@ -72,7 +72,7 @@ class ShipmentBox(val world: World, val x: Int, val y: Int, val z: Int) {
     val inventoryHolder: InventoryHolder = chest.getInventory.getHolder
 
     val saleValues: Map[Material, Long] = getSaleValues
-    val playerStats: PlayerStats = new PlayerStats(getOwner().getPlayer)
+    val playerStats: PlayerStats = new PlayerStats(getOwner.getPlayer)
     var totalGold = 0L
     for (itemStack <- inventoryHolder.getInventory.getContents) {
       if (itemStack != null && saleValues.contains(itemStack.getType)) {
@@ -120,8 +120,8 @@ object ShipmentBox {
     while (result.next()) {
       val shipmentBox: ShipmentBox = new ShipmentBox(w, result.getInt("x"), result.getInt("y"), result.getInt("z"))
       val amount = shipmentBox.processInventory
-      if (shipmentBox.getOwner().isOnline && amount > 0) {
-        shipmentBox.getOwner().getPlayer.sendMessage(ChatColor.BOLD + "Your shipments were picked up! You racked up " + ChatColor.GREEN.toString + ChatColor.BOLD.toString + "+$" + formatter.format(amount) + ChatColor.WHITE + ChatColor.BOLD.toString + "!")
+      if (shipmentBox.getOwner.isOnline && amount > 0) {
+        shipmentBox.getOwner.getPlayer.sendMessage(ChatColor.BOLD + "Your shipments were picked up! You racked up " + ChatColor.GREEN.toString + ChatColor.BOLD.toString + "+$" + formatter.format(amount) + ChatColor.WHITE + ChatColor.BOLD.toString + "!")
       }
     }
   }

@@ -6,7 +6,7 @@ import org.bukkit.entity.{EntityType, Item}
 import org.bukkit.event.entity.EntityDropItemEvent
 import org.bukkit.{Bukkit, ChatColor, Material, World}
 import org.bukkit.scheduler.BukkitRunnable
-import sunnyvalley.{Main, PlayerStats, ShipmentBox, WorldListener}
+import sunnyvalley.{Main, PlayerStats, ShipmentBox}
 
 import scala.concurrent.JavaConversions._
 import scala.collection.JavaConverters._

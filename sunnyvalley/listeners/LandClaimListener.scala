@@ -1,12 +1,12 @@
-package sunnyvalley.landcontrol
+package sunnyvalley.listeners
 
 import org.bukkit.entity.{EntityType, Player, Projectile, SplashPotion}
-import org.bukkit.{ChatColor, Chunk, Material, World}
-import org.bukkit.event.entity.{PotionSplashEvent, ProjectileHitEvent}
+import org.bukkit.event.entity.ProjectileHitEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
-
+import org.bukkit.{ChatColor, Chunk, Material, World}
+import sunnyvalley.landcontrol.{ClaimPotion, LandClaim}
 
 object LandClaimListener extends Listener {
 

@@ -1,15 +1,16 @@
-package sunnyvalley
+package sunnyvalley.listeners
 
 import java.util.logging.Level
 
-import org.bukkit.{Bukkit, ChatColor, Material, World}
 import org.bukkit.entity.EntityType
 import org.bukkit.event.block.{BlockBreakEvent, SignChangeEvent}
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason
 import org.bukkit.event.{EventHandler, Listener}
+import org.bukkit.{Bukkit, ChatColor, Material}
+import sunnyvalley.{Main, ShipmentBox}
 
-object WorldListener extends Listener {
+object ShipmentBoxListener extends Listener {
 
   @EventHandler
   def onEntitySpawn(e: CreatureSpawnEvent): Unit = {
@@ -19,7 +20,7 @@ object WorldListener extends Listener {
   }
 
   /**
-    * Event for creating shipment box's
+    * Event for creating shipment boxs
     */
   @EventHandler
   def onSignChanged(e: SignChangeEvent): Unit = {
@@ -31,7 +32,7 @@ object WorldListener extends Listener {
     if (e.isCancelled) return
 
     if (e.getBlock.getRelative(signMaterial.getAttachedFace).getBlockData.getMaterial != Material.CHEST) {
-      e.getPlayer.sendMessage(ChatColor.RED + "Uh-Oh! " + ChatColor.RESET + "The shipment box must be placed against a chest.")
+      e.getPlayer.sendMessage(ChatColor.RED + "Uh-Oh! " + ChatColor.RESET + "The sign must be placed against a chest.")
       return
     }
 
