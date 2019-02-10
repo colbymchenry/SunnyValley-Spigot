@@ -3,7 +3,7 @@ package sunnyvalley.commands
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 import org.bukkit.entity.Player
 import org.bukkit.{ChatColor, Chunk}
-import sunnyvalley.landcontrol.LandClaim
+import sunnyvalley.landcontrol.{ClaimPotion, LandClaim}
 
 object CommandClaim extends CommandExecutor {
 
@@ -29,6 +29,8 @@ object CommandClaim extends CommandExecutor {
       }
     } else if(strings(0).equalsIgnoreCase("info")) {
 
+    } else if (strings(0).equalsIgnoreCase("potion")) {
+      player.getInventory.addItem(ClaimPotion.getClaimPotion)
     } else return false
 
     true

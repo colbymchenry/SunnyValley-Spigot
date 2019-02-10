@@ -7,10 +7,13 @@ commands:
   claim:
     description: Command used to manage land claims.
   claim delete:
-    description:  Delete the land claim you are currently standing in.
+    description: Delete the land claim you are currently standing in.
     usage: /claim delete
   claim info:
-    description:   Grabs info about the claim and displays it in chat.
+    description: Grabs info about the claim and displays it in chat.
+    usage: /claim info
+  claim potion:
+    description: Gives the player a claim potion.
     usage: /claim info
   friend:
     description: Command used to manage friends.

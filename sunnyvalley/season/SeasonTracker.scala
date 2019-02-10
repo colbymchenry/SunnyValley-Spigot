@@ -47,6 +47,7 @@ object SeasonTracker {
             }
           })
 
+          // TODO: Seemed to be working on this
           println("CALLED")
           // handle replanting saplings
           for (elem <- world.getEntities.asScala) {
